@@ -35,7 +35,7 @@ LLC Electronics, the company in a DNC School challenge, kept its stock in scatte
 | 📥 Units in / 📤 units out | 38,816 / 19,878 |
 | ⚠️ Products with negative stock | 22 |
 
-## 🗂️ Workbook Structure
+## 📒 Workbook Structure
 
 [`analysis.xlsx`](analysis.xlsx) has seven sheets:
 
@@ -51,7 +51,7 @@ LLC Electronics, the company in a DNC School challenge, kept its stock in scatte
 
 The original challenge files are in [`Database/`](Database).
 
-## ⚙️ How It Works
+## 🔧 How It Works
 
 ```mermaid
 flowchart LR
