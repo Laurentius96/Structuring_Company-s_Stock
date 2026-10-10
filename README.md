@@ -1,224 +1,130 @@
 <div align="center">
-  <h1>📊 Structuring Company's Stock</h1>
-  <p><i>Complete stock management system with strategic dashboard developed in Excel for LLC Electronics</i></p>
-</div>
 
-<p align="center">
+# 📦 Structuring Company's Stock
+
+**A stock-control system and executive dashboard built entirely in Excel**
+
+![Excel](https://img.shields.io/badge/Excel-217346?style=for-the-badge)
+![Pivot Tables](https://img.shields.io/badge/Pivot_Tables-107C41?style=for-the-badge)
+![Google Sheets](https://img.shields.io/badge/Google_Sheets-34A853?style=for-the-badge&logo=googlesheets&logoColor=white)
+
+[**▶ Open the shared Google Sheets version**](https://docs.google.com/spreadsheets/d/1ASVNzQPtEpx3L61Q62m_8lls28T9e2KF/edit?usp=sharing)
+
+<p>
   <a href="#-overview">Overview</a> •
-  <a href="#-objective">Objective</a> •
-  <a href="#-technologies-used">Technologies</a> •
-  <a href="#-project-structure">Project Structure</a> •
-  <a href="#-development-methodology">Methodology</a> •
-  <a href="#%EF%B8%8F-implemented-features">Features</a> •
-  <a href="#-final-dashboard">Final Dashboard</a> •
-  <a href="#-strategic-insights-identified">Insights & Results</a> •
-  <a href="#-technical-learnings">Technical Learnings</a> •
+  <a href="#-workbook-structure">Workbook</a> •
+  <a href="#-how-it-works">How It Works</a> •
+  <a href="#-dashboard-results">Results</a> •
+  <a href="#-insights">Insights</a> •
+  <a href="#-how-to-use">How to Use</a> •
   <a href="#-license">License</a>
 </p>
 
+</div>
+
+---
+
 ## 🔍 Overview
 
-This project represents a complete **Business Intelligence** solution developed entirely in Microsoft Excel for LLC Electronics. The challenge consisted of transforming scattered and disorganized stock data into a consolidated management system, culminating in a strategic dashboard that enables data-driven decision making.
+LLC Electronics, the company in a DNC School challenge, kept its stock in scattered spreadsheets: no consolidated balance, no way to spot critical or negative stock and no view by category. This workbook consolidates **product registrations, 500 inbound and 500 outbound movements** into an automatic stock summary, classifies every product by stock status and feeds an **executive dashboard** with pivot tables, charts and a slicer.
 
-### 🎯 Problem Solved
-LLC Electronics faced difficulties in stock control due to **information dispersion** across multiple separate spreadsheets, making it impossible to:
-- Have a consolidated view of current stock
-- Identify products with critical or negative stock
-- Analyze performance by product category
-- Make strategic decisions based on data
+| | |
+|---|---:|
+| 📦 Products (SKUs) | 120 in 7 categories |
+| 💰 Net stock value | R$ 10,102,026 |
+| 📥 Units in / 📤 units out | 38,816 / 19,878 |
+| ⚠️ Products with negative stock | 22 |
 
-### ✅ Implemented Solution
-Development of an **integrated stock management system** with:
-- Automatic consolidation of input, output and registration data
-- Intelligent classification of product status
-- Interactive dashboard with strategic KPIs
-- Graphical visualizations for trend analysis
+## 🗂️ Workbook Structure
 
-## 🚀 Objective
+[`analysis.xlsx`](analysis.xlsx) has seven sheets:
 
-**Transform raw stock data into business intelligence**, applying advanced Excel techniques to:
+| Sheet | Role | Content |
+|---|---|---|
+| `Register` | Product master data | SKU, product, description, category, price |
+| `In` | Inbound movements | Date, SKU, product, quantity (500 rows) |
+| `Out` | Outbound movements | Date, SKU, product, quantity (500 rows) |
+| `Stock Summary` | Consolidation | Total in, total out, balance, stock value and status per SKU |
+| `Dashboard` | Executive panel | 4 pivot tables, 3 charts, a category slicer and KPI cells |
+| `Product status` | Lookup | Status labels and their rules |
+| `Category` | Lookup | List of the 7 categories |
 
-1) **Consolidate** input, output and product registration data
-2) **Automate** calculations of balances, stock values and classifications
-3) **Visualize** information through pivot tables and analytical charts
-4) **Deliver** a functional strategic panel for executive meetings
+The original challenge files are in [`Database/`](Database).
 
-> 💡 **SKU (Stock Keeping Unit)**: Stock Keeping Unit used to classify and organize items according to their specific characteristics (size, color, model, manufacturer).
+## ⚙️ How It Works
 
-## 💻 Technologies Used
+```mermaid
+flowchart LR
+    R[Register<br/>120 SKUs] --> S[Stock Summary]
+    I[In<br/>500 movements] --> S
+    O[Out<br/>500 movements] --> S
+    S --> P[4 pivot tables] --> D[Dashboard<br/>KPIs, charts, slicer]
+```
 
-### 🔧 Main Tools
-- **Microsoft Excel** - Main development platform
-- **Pivot Tables** - Data analysis and summarization
-- **Dynamic Charts** - Interactive information visualization
+**Stock Summary formulas (per SKU):**
 
-### 📊 Advanced Excel Functions
-- **`SUMIF`** - Conditional sum for calculating inputs and outputs
-- **`VLOOKUP`** - Information search between different sheets
-- **`IFS`** - Multiple conditional logic for status classification
-- **Conditional Formatting** - Automatic visual highlighting of critical data
-- **Data Validation** - Information integrity control
+| Column | Formula |
+|---|---|
+| Total In | `SUMIF` of the quantities in `In` for the SKU |
+| Total Out | `=SUMIF(Out!$B:$B, $A2, Out!$D:$D)` |
+| Current Balance | `=D2 - E2` |
+| Stock Value (R$) | `=F2 * C2` |
+| Product status | `IFS` on the balance, using the rules below |
 
-## 📋 Project Structure
+| Status | Rule |
+|---|---|
+| Obsolete | balance = 0 |
+| Negative Stock | balance < 0 |
+| Critical | balance from 1 to 20 |
+| OK | balance from 21 to 100 |
+| Excess | balance above 100 |
+
+Conditional formatting colors the stock value as positive, zero or negative, and the dashboard KPIs read the pivot tables with `GETPIVOTDATA`.
+
+## 📊 Dashboard Results
+
+| Category | Stock value (R$) | Units out | Average price (R$) | SKUs |
+|---|---:|---:|---:|---:|
+| Networks | 2,073,021 | 3,147 | 586.83 | 18 |
+| Hardware | 1,779,318 | 2,182 | 573.39 | 16 |
+| Image & Sound | 1,772,670 | 2,691 | 519.15 | 17 |
+| Storage | 1,369,242 | 3,098 | 457.12 | 19 |
+| Accessories | 1,161,583 | 3,674 | 561.26 | 20 |
+| Peripherals | 978,668 | 2,847 | 563.89 | 16 |
+| Components | 967,525 | 2,239 | 476.05 | 14 |
+| **Total** | **10,102,026** | **19,878** | **534.67** | **120** |
+
+**Stock status:** Excess 75 · Negative Stock 22 · OK 20 · Critical 3 · Obsolete 0.
+
+## 💡 Insights
+
+| Topic | Finding |
+|---|---|
+| 💰 Capital | **Networks** holds the most capital in stock (R$ 2.07M) and has the highest average price (R$ 586.83) |
+| 🔄 Turnover | **Accessories** moves the most units (3,674 out), followed by Networks (3,147) and Storage (3,098) |
+| 📦 Overstock | **75 of 120 products (62.5%)** are in Excess (balance above 100): a sign of capital tied up in stock |
+| ⚠️ Data quality | **22 products have negative stock** (more units out than in), totalling −R$ 982,616 of stock value. That usually points to missing inbound records or sales without stock, and it lowers the net total |
+| 🔴 Replenishment | Only 3 products are Critical (1 to 20 units) |
+
+## 📁 Project Structure
 
 ```
-📁 Structuring_Company-s_stock/
+📁 Structuring_Company-s_Stock/
 ├── 📁 Database/
-│   ├── 📄 [Template] Entrada.csv           # Input data
-│   └── 📊 [Template] Excel.xlsx            # Original template (44 KB)
-├── 📊 analysis.xlsx                        # Main spreadsheet (99 KB)
-├── 📄 LICENSE.md                           # Project license (4 KB)
-└── 📄 README.md                            # Documentation (1 KB)
+│   ├── 📄 [Template] Organize os dados ... - Entrada.csv   # Original input data
+│   └── 📊 [Template] Organize os dados ... .xlsx            # Original template
+├── 📊 analysis.xlsx                                         # Final workbook
+├── 📄 LICENSE.md                                            # CC BY-NC-ND 4.0
+└── 📄 README.md
 ```
-
-### 🗂️ Excel Sheets Structure
-
-| Sheet | Function | Content |
-|-------|----------|---------|
-| `📋 Register` | Product database | SKU, Name, Description, Category, Price |
-| `📈 In` | Input records | Date, SKU, Product, Quantity |
-| `📉 Out` | Output records | Date, SKU, Product, Quantity |
-| `📊 Stock Summary` | Consolidation | Balances, values, status per product |
-| `🎯 Bashboard` | Strategic dashboard | KPIs, pivot tables, charts |
-
-## 🎯 Development Methodology
-
-### Phase 1️⃣ - Data Relationship and Consolidation
-**Objective**: Create consolidated information base
-- ✅ Creation of `Resumo Estoque` sheet
-- ✅ Import of SKU, Category and Price via `VLOOKUP`
-- ✅ Calculation of input and output totals with `SUMIF`
-- ✅ Determination of current balance (inputs - outputs)
-- ✅ Calculation of stock value (balance × price)
-
-### Phase 2️⃣ - Intelligent Status Classification
-**Objective**: Categorize products by stock situation
-- ✅ Implementation of logic with `IFS` function:
-  - 🔴 **Obsolete**: stock = 0
-  - ⚠️ **Negative Stock**: balance < 0  
-  - 🟡 **Critical**: balance between 1-20
-  - 🟢 **OK**: balance between 21-100
-  - 🔵 **Excess**: balance > 100
-
-### Phase 3️⃣ - Visual and Conditional Formatting
-**Objective**: Facilitate visual identification of critical situations
-- ✅ Red highlighting for negative values
-- ✅ Currency formatting (R$) for value columns
-- ✅ Color coding for different statuses
-- ✅ Visual standardization and alignment
-
-### Phase 4️⃣ - Validation and Structuring
-**Objective**: Ensure integrity and usability
-- ✅ Drop-down lists with data validation
-- ✅ Panel freezing for navigation
-- ✅ Visual organization and title standardization
-
-### Phase 5️⃣ - Business Intelligence with Pivot Tables
-**Objective**: Create automated strategic analyses
-- ✅ Total stock value by category
-- ✅ Number of SKUs by category  
-- ✅ Average price by category
-- ✅ Total outputs by category
-
-### Phase 6️⃣ - Executive Dashboard
-**Objective**: Strategic visualization for decision making
-- ✅ Column chart: Stock value by category
-- ✅ Bar chart: Total outputs by category
-- ✅ Column chart: Average price by category
-
-## ⚙️ Implemented Features
-
-### 🔄 Process Automation
-- **Automatic updating** of balances when modifying input/output data
-- **Dynamic classification** of status based on business rules
-- **Automatic calculations** of financial values in stock
-
-### 📈 Strategic Analyses
-- **Identification of critical products** with low or negative stock
-- **Performance analysis by product category**
-- **Monitoring of capital invested** in stock
-- **Movement tracking** by category
-
-### 🎨 Visual Interface
-- **Intuitive dashboard** with main KPIs
-- **Interactive charts** for trend analysis
-- **Conditional formatting** for visual alerts
-- **Professional layout** ready for presentations
-
-## 🎯 Final Dashboard
-
-The developed dashboard presents a complete executive view of LLC Electronics' stock:
-
-### 📊 Main KPIs
-- **💰 Total Stock Value**: R$ 10,102,026 - Total stock value
-- **📦 SKU Count**: 120 unique registered products
-- **💵 Average Price**: R$ 534.67 - Average product price
-- **📤 Total Out**: 19,878 total output units
-
-### 📈 Analysis by Category
-
-**Stock Value by Category:**
-- 🥇 **Networks**: R$ 2,073,021 (highest invested value)
-- 🥈 **Peripherals**: R$ 1,779,518
-- 🥉 **Image & Sound**: R$ 1,772,670
-
-**Movement by Category (Total Out):**
-- 🔝 **Accessories**: 3,674 units (highest turnover)
-- **Peripherals**: 2,847 units
-- **Image & Sound**: 2,601 units
-
-**Average Price by Category:**
-- 💎 **Networks**: R$ 586.83 (highest value products)
-- **Hardware**: R$ 561.26
-- **Peripherals**: R$ 568.89
-
-### 🎯 Strategic Insights Identified
-
-1) **⚠️ Capital Management**: "Networks" category concentrates highest stock value
-2) **🔄 High Turnover**: "Accessories" shows highest movement
-3) **💰 Pricing Opportunity**: "Networks" products have higher margin
-4) **📊 Diversification**: Portfolio well distributed across 7 categories
-
-## 🎓 Technical Learnings
-
-### 💡 Excel Competencies Developed
-- **Data relationships** between multiple sheets and sources
-- **Advanced functions** for complex calculation automation
-- **Pivot tables** for multidimensional analysis
-- **Data visualization** through strategic charts
-- **Professional dashboard design** for executive presentations
-
-### 🔍 Business Intelligence Concepts
-- **ETL Process**: Extract, transform and load data
-- **KPI Design**: Definition of key performance indicators
-- **Data Storytelling**: Narrative through visualizations
-- **Executive Reporting**: Reports for decision making
-
-### ⚙️ Implemented Best Practices
-- **Clear documentation** of formulas and processes
-- **Data validation** to maintain integrity
-- **Consistent formatting** to facilitate reading
-- **Modular structure** to facilitate maintenance
-
-## 🚨 Alerts and Monitoring
-
-> ⚠️ **Negative Stock**: The system automatically identifies products with more outputs than inputs, indicating possible:
-> - Movement recording errors
-> - Sales made without adequate replenishment  
-> - Logistical problems in the supply chain
-
-### 🔔 Implemented Alert Indicators
-- 🔴 **Red**: Negative values (immediate action required)
-- 🔵 **Blue**: Zero stock (obsolete products)
-- 🟢 **Green**: Normal situation (21-100 units)
 
 ## 🚀 How to Use
 
 1. **View online:** open the [shared Google Sheets version](https://docs.google.com/spreadsheets/d/1ASVNzQPtEpx3L61Q62m_8lls28T9e2KF/edit?usp=sharing) in your browser, with no installation.
-2. **Open in Excel:** download [`analysis.xlsx`](analysis.xlsx), the main spreadsheet, and open it in Microsoft Excel. Start at the dashboard sheet and use the pivot tables to filter.
-3. **Start from the raw data:** the [`Database/`](Database) folder has the original input files (CSV and XLSX) used to build the system.
+2. **Open in Excel:** download [`analysis.xlsx`](analysis.xlsx) and open it in Microsoft Excel. `IFS` needs Excel 2019 or Microsoft 365.
+3. **Try it:** add a movement to `In` or `Out`, then refresh the pivot tables (Data › Refresh All) to update the dashboard.
 
----
+> Sheet content (product names and categories) is in Portuguese, as provided by the challenge; this README uses the English category names.
 
 ## 🤝 Contributing
 
@@ -230,57 +136,19 @@ Contributions, ideas and feedback are welcome!
 
 By contributing, you agree that your contribution is shared under the same license as this project.
 
----
-
 ## 📜 License
 
-This project was developed as part of the **DNC (Digital Nation Course)** educational program and is available for learning purposes and technical competency demonstration.
+This project is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)](LICENSE.md).
 
-<details open>
-<summary><b>📄 Creative Commons CC BY-NC-ND 4.0 License</b></summary>
-
-This repository is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](https://creativecommons.org/licenses/by-nc-nd/4.0/).
-
-### ✅ Permissions:
-- **Share**: Copy and redistribute the material in any medium or format
-- **Attribution**: Give appropriate credit to the original author
-
-### ❌ Limitations:
-- **Commercial Use**: Not permitted for commercial purposes
-- **Modifications**: Not permitted to alter, transform or create derivatives
-- **Warranties**: Provided "as is", without warranties of any kind
-
-For complete terms, see [LICENSE.md](LICENSE.md).
-</details>
-
-## 🎓 Educational Resources
-
-### 📚 Technical Documentation
-- [Microsoft Excel - Functions and Formulas](https://support.microsoft.com/en-us/office/excel-functions-by-category)
-- [Pivot Tables - Complete Guide](https://support.microsoft.com/en-us/office/create-a-pivottable)
-- [Dashboard Design - Best Practices](https://www.microsoft.com/en-us/microsoft-365/excel)
-
-### 🔧 Complementary Tools
-- **Power Query**: For advanced data transformation
-- **Power Pivot**: For complex data modeling
-- **Power BI**: For more advanced dashboards
-
-### 💡 Recovery Tips
-> 🆘 **File Recovery**: In case of accidental closing without saving:
-> 
-> Access: `C:\Users\[YOUR_USERNAME]\AppData\Local\Temp\Microsoft`
-> 
-> ⏰ **Important**: Do this within 15 minutes to recover your work!
+**What this means:**
+- ✅ You may **share** this work with **attribution**
+- ❌ You may **not** use it for **commercial purposes**
+- ❌ You may **not** distribute **modified versions**
 
 ---
 
 <div align="center">
-  <h3>🏆 Project Developed with Excellence</h3>
-  <p><b>👨‍💻 Developed by <a href="https://github.com/Laurentius96">Lorenzo C. Bianchi</a></b></p>
-  <p><i>🎯 Transforming data into strategic decisions | 📊 Excel • Business Intelligence • Data Analysis</i></p>
-  <p><b>🎓 DNC Educational Program</b></p>
-</div>
 
-<div align="center">
-  <p><i>💙 "Data is the new oil, but insights are the fuel that drives business"</i></p>
+**Lorenzo C. Bianchi** · [GitHub](https://github.com/Laurentius96) · [LinkedIn](https://www.linkedin.com/in/cb-lorenzo/)
+
 </div>
