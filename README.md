@@ -9,9 +9,9 @@
   <a href="#-technologies-used">Technologies</a> •
   <a href="#-project-structure">Project Structure</a> •
   <a href="#-development-methodology">Methodology</a> •
-  <a href="#-implemented-features">Features</a> •
+  <a href="#%EF%B8%8F-implemented-features">Features</a> •
   <a href="#-final-dashboard">Final Dashboard</a> •
-  <a href="#-insights-and-results">Insights & Results</a> •
+  <a href="#-strategic-insights-identified">Insights & Results</a> •
   <a href="#-technical-learnings">Technical Learnings</a> •
   <a href="#-license">License</a>
 </p>
