@@ -212,6 +212,26 @@ The developed dashboard presents a complete executive view of LLC Electronics' s
 - 🔵 **Blue**: Zero stock (obsolete products)
 - 🟢 **Green**: Normal situation (21-100 units)
 
+## 🚀 How to Use
+
+1. **View online:** open the [shared Google Sheets version](https://docs.google.com/spreadsheets/d/1ASVNzQPtEpx3L61Q62m_8lls28T9e2KF/edit?usp=sharing) in your browser, with no installation.
+2. **Open in Excel:** download [`analysis.xlsx`](analysis.xlsx), the main spreadsheet, and open it in Microsoft Excel. Start at the dashboard sheet and use the pivot tables to filter.
+3. **Start from the raw data:** the [`Database/`](Database) folder has the original input files (CSV and XLSX) used to build the system.
+
+---
+
+## 🤝 Contributing
+
+Contributions, ideas and feedback are welcome!
+
+- 🐛 **Found a bug or something unclear?** [Open an issue](https://github.com/Laurentius96/Structuring_Company-s_Stock/issues/new) describing what happened and how to reproduce it.
+- 💡 **Have an idea or a question?** [Open an issue](https://github.com/Laurentius96/Structuring_Company-s_Stock/issues/new) and tell me about it.
+- 🔧 **Want to propose a fix?** Fork the repository, create a branch (`git checkout -b fix/short-description`), commit your changes and open a pull request explaining what changed and why.
+
+By contributing, you agree that your contribution is shared under the same license as this project.
+
+---
+
 ## 📜 License
 
 This project was developed as part of the **DNC (Digital Nation Course)** educational program and is available for learning purposes and technical competency demonstration.
